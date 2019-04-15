@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.shape.Rectangle;
 import javafx.animation.*;
 import javafx.util.Duration;
+import javafx.scene.input.*;
 
 public class Ex15_Animation extends Application {
 	
@@ -47,11 +48,40 @@ public class Ex15_Animation extends Application {
 		pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 		pt.play();
 		
+		FadeTransition ft = new FadeTransition(Duration.millis(2000), r);
+		ft.setFromValue(0);
+		ft.setToValue(1);
+		ft.setCycleCount(Timeline.INDEFINITE);
+		ft.setAutoReverse(true);
+		ft.play();
+		
+		FadeTransition ft1 = new FadeTransition(Duration.millis(1000), polygon);
+		ft1.setFromValue(0);
+		ft1.setToValue(1);
+		ft1.setCycleCount(Timeline.INDEFINITE);
+		ft1.setAutoReverse(true);
+		
+		
+		
 		Scene scene = new Scene(pane, 500, 500);
 		primaryStage.setTitle("Ex15_Animation");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		r.setOnMouseClicked(e -> {
+			if (e.getButton() == MouseButton.PRIMARY) {
+				pt.pause();
+				ft.pause();
+				ft1.play();
+				System.out.println("Animation Pause");
+			}
+			else if (e.getButton() == MouseButton.SECONDARY) {
+				pt.play();
+				ft.play();
+				ft1.pause();
+				System.out.println("Animation Resume");
+			}
+		});
 	}
 	
 	public static void main(String[] args) {
